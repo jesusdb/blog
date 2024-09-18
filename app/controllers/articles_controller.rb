@@ -18,6 +18,7 @@ class ArticlesController < ApplicationController
 
   # GET /articles/1/edit
   def edit
+    authorize @article
   end
 
   # POST /articles or /articles.json
@@ -37,8 +38,10 @@ class ArticlesController < ApplicationController
 
   # PATCH/PUT /articles/1 or /articles/1.json
   def update
+    authorize @article
+
     respond_to do |format|
-      if @article.update(article_params.merge({ user_id: current_user.id }))
+      if @article.update(article_params)
         format.html { redirect_to @article, notice: "Article was successfully updated." }
         format.json { render :show, status: :ok, location: @article }
       else
@@ -50,6 +53,8 @@ class ArticlesController < ApplicationController
 
   # DELETE /articles/1 or /articles/1.json
   def destroy
+    authorize @article
+
     @article.destroy!
 
     respond_to do |format|

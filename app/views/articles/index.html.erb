@@ -5,7 +5,6 @@
 <h3><%= link_to 'Home', root_path %></h3>
 
 <%= form_with url: articles_path, method: :get, local: true, html: { class: 'row' } do %>
-  <%#= label_tag :query, 'Search articles' %>
   <div class="col-auto">
     <%= text_field_tag :query, params[:query], placeholder: 'Search articles', class: 'form-control' %>
   </div>

@@ -3,8 +3,8 @@
 <%= render @article %>
 
 <div>
-  <%= link_to "Edit this article", edit_article_path(@article) %> |
+  <%= link_to "Edit this article", edit_article_path(@article) if policy(@article).update? %> |
   <%= link_to "Back to articles", articles_path %>
 
-  <%= button_to "Destroy this article", @article, method: :delete %>
+  <%= button_to "Destroy this article", @article, method: :delete if policy(@article).destroy? %>
 </div>

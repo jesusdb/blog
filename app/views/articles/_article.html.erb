@@ -11,7 +11,15 @@
 
   <p>
     <strong>User:</strong>
-    <%= article.user_id %>
+    <%= article.user.email %>
   </p>
 
+  <strong>Comments:</strong>
+  <ul>
+    <% article.comments.each do |comment| %>
+      <li><%= comment.body %></li>
+    <% end %>
+  </ul>
+
+  <%= render 'comments/form', article: @article, comment: @comment if action_name == 'show' %>
 </div>

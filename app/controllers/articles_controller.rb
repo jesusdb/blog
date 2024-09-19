@@ -1,5 +1,6 @@
 class ArticlesController < ApplicationController
   before_action :set_article, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, only: %i[ new create edit update destroy ]
 
   # GET /articles or /articles.json
   def index
@@ -8,6 +9,7 @@ class ArticlesController < ApplicationController
 
   # GET /articles/1 or /articles/1.json
   def show
+    @comment = Comment.new
   end
 
   # GET /articles/new
@@ -17,11 +19,12 @@ class ArticlesController < ApplicationController
 
   # GET /articles/1/edit
   def edit
+    authorize @article
   end
 
   # POST /articles or /articles.json
   def create
-    @article = Article.new(article_params)
+    @article = Article.new(article_params.merge({ user_id: current_user.id }))
 
     respond_to do |format|
       if @article.save
@@ -36,9 +39,11 @@ class ArticlesController < ApplicationController
 
   # PATCH/PUT /articles/1 or /articles/1.json
   def update
+    authorize @article
+
     respond_to do |format|
       if @article.update(article_params)
-        format.html { redirect_to @article, notice: "Article was successfully updated." }
+        format.html { redirect_to @article, notice: 'Article was successfully updated.' }
         format.json { render :show, status: :ok, location: @article }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -49,6 +54,8 @@ class ArticlesController < ApplicationController
 
   # DELETE /articles/1 or /articles/1.json
   def destroy
+    authorize @article
+
     @article.destroy!
 
     respond_to do |format|
@@ -65,6 +72,6 @@ class ArticlesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def article_params
-      params.require(:article).permit(:title, :body, :user_id)
+      params.require(:article).permit(:title, :body)
     end
 end

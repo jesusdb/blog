@@ -1,25 +1,20 @@
 <div id="<%= dom_id article %>">
-  <p>
-    <strong>Title:</strong>
-    <%= article.title %>
-  </p>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title"><%= article.title %></h5>
+      <h6 class="card-subtitle mb-2 text-body-secondary">by <%= article.user.email %></h6>
+      <p class="card-text"><%= article.body %></p>
+    </div>
 
-  <p>
-    <strong>Body:</strong>
-    <%= article.body %>
-  </p>
-
-  <p>
-    <strong>User:</strong>
-    <%= article.user.email %>
-  </p>
-
-  <strong>Comments:</strong>
-  <ul>
-    <% article.comments.each do |comment| %>
-      <li><%= comment.body %></li>
-    <% end %>
-  </ul>
+    <ul class="list-group list-group-flush">
+      <% article.comments.each do |comment| %>
+        <li class="list-group-item">
+          <small><%= comment.user.email %></small><br>
+          <%= comment.body %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 
   <%= render 'comments/form', article: @article, comment: @comment if action_name == 'show' %>
 </div>

@@ -50,6 +50,8 @@ gem "bootsnap", require: false
 gem 'dotenv-rails', '~> 3.1', '>= 3.1.4'
 gem 'devise', '~> 4.9', '>= 4.9.4'
 gem 'pundit', '~> 2.4'
+gem 'acts-as-taggable-on', '~> 11.0'
+gem 'will_paginate', '~> 4.0', '>= 4.0.1'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show edit update destroy ]
   before_action :set_article, only: %i[ index new create ]
+  before_action :authenticate_user!, only: %i[ new create edit update destroy ]
 
   # GET /comments or /comments.json
   def index
@@ -18,6 +21,7 @@ class CommentsController < ApplicationController
 
   # GET /comments/1/edit
   def edit
+    authorize @comment
   end
 
   # POST /comments or /comments.json
@@ -26,6 +30,13 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
+        NotificationService.new(
+          notification: Notification.create!(
+            message: "#{current_user.email} commented your article \"#{@article.title}\".",
+            user: current_user, recipient: @article.user, notifiable_type: 'Article', notifiable_id: @article.id
+          )
+        ).send_notification
+
         format.html { redirect_to @article, notice: "Comment was successfully created." }
         format.json { render :show, status: :created, location: @comment }
       else
@@ -37,6 +48,8 @@ class CommentsController < ApplicationController
 
   # PATCH/PUT /comments/1 or /comments/1.json
   def update
+    authorize @comment
+
     respond_to do |format|
       if @comment.update(comment_params)
         format.html { redirect_to @article, notice: "Comment was successfully updated." }
@@ -50,10 +63,12 @@ class CommentsController < ApplicationController
 
   # DELETE /comments/1 or /comments/1.json
   def destroy
+    authorize @comment
+
     @comment.destroy!
 
     respond_to do |format|
-      format.html { redirect_to comments_path, status: :see_other, notice: "Comment was successfully destroyed." }
+      format.html { redirect_to @comment.article, status: :see_other, notice: "Comment was successfully destroyed." }
       format.json { head :no_content }
     end
   end

@@ -1,0 +1,8 @@
+<%= form_with url: articles_path, method: :get, local: true, html: { class: 'row' } do %>
+  <div class="col-auto">
+    <%= text_field_tag :query, params[:query], placeholder: 'Search articles', class: 'form-control' %>
+  </div>
+  <div class="col-auto">
+    <%= submit_tag 'Search', class: 'btn btn-outline-success mb-3' %>
+  </div>
+<% end %>

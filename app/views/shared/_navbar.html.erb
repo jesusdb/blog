@@ -1,0 +1,65 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <%= link_to 'Blog', root_path, class: 'navbar-brand' %>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <%= link_to 'Home', root_path, class: 'nav-link active', 'aria-current': 'page' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to  'Articles', articles_path, class: 'nav-link' %>
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <% if user_signed_in? %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="notifications-icon-container">
+              <i class="bi bi-bell">
+                <span class="position-absolute top-25 start-75 translate-middle badge rounded-pill bg-danger">
+                  <%= @notifications.unread.count %>
+                  <span class="visually-hidden">unread messages</span>
+                </span>
+              </i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <% @notifications.each do |notification| %>
+                <li>
+                  <%= link_to notification.message, notifiable_path(notification), class: 'dropdown-item' %>
+                  <span class="badge text-bg-success">
+                    <small>
+                      <%= link_to notification_path(notification, notification: { status: :read }), data: { turbo_method: :patch } do %>
+                        <i class="bi bi-envelope-open" style="color: white;"></i>
+                      <% end %>
+                    </small>
+                  </span>
+                  <span>
+                    <small>
+                      <%= link_to notification_path(notification, notification: { status: :unread }), data: { turbo_method: :patch } do %>
+                        <i class="bi bi-envelope-fill"></i>
+                      <% end %>
+                    </small>
+                  </span>
+                </li>
+              <% end %>
+              <li><hr class="dropdown-divider"></li>
+              <li><%= link_to 'Delete all notifications', destroy_all_notifications_path, class: 'dropdown-item', data: { turbo_method: :delete } %></li>
+            </ul>
+          </li>
+        <% end %>
+        <% unless user_signed_in? %>
+          <li class="nav-item">
+            <%= link_to 'Sign Up', new_user_registration_path, class: 'nav-link' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Sign In', new_user_session_path, class: 'nav-link'  %>
+          </li>
+        <% end %>
+        <%= link_to 'Log out', destroy_user_session_path, data: { turbo_method: :delete }, class: 'nav-link' if user_signed_in? %>
+      </ul>
+    </div>
+  </div>
+</nav>

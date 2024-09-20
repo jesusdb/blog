@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :notifications, only: %i[update destroy] do
+    delete 'destroy_all', on: :collection
+  end
   resources :articles do
     resources :comments, shallow: true
   end

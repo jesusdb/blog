@@ -11,7 +11,7 @@
         <li class="list-group-item">
           <small><%= comment.user.email %></small><br>
           <%= comment.body %><br>
-          <small><%= link_to 'Delete', comment_path(comment), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %></small>
+          <small><%= link_to 'Delete', comment_path(comment), data: { turbo_method: :delete } %></small>
         </li>
       <% end %>
     </ul>

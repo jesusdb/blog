@@ -26,6 +26,11 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
+        NotificationsChannel.broadcast_to(
+          @article.user,
+          { comment: @comment.body, user: @comment.user.email, message: "Your article \"#{@article.title}\" has received a new comment." }
+        )
+
         format.html { redirect_to @article, notice: "Comment was successfully created." }
         format.json { render :show, status: :created, location: @comment }
       else

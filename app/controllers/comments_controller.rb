@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show edit update destroy ]
   before_action :set_article, only: %i[ index new create ]
@@ -28,10 +30,12 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
-        NotificationsChannel.broadcast_to(
-          @article.user,
-          { comment: @comment.body, user: @comment.user.email, message: "Your article \"#{@article.title}\" has received a new comment." }
-        )
+        NotificationService.new(
+          notification: Notification.create!(
+            message: "#{current_user.email} commented your article \"#{@article.title}\".",
+            user: current_user, recipient: @article.user, notifiable_type: 'Article', notifiable_id: @article.id
+          )
+        ).send_notification
 
         format.html { redirect_to @article, notice: "Comment was successfully created." }
         format.json { render :show, status: :created, location: @comment }

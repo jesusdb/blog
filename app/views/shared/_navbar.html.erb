@@ -17,13 +17,36 @@
       <ul class="navbar-nav ms-auto">
         <% if user_signed_in? %>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-bell"></i>
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="notifications-icon-container">
+              <i class="bi bi-bell">
+                <span class="position-absolute top-25 start-75 translate-middle badge rounded-pill bg-danger">
+                  <%= @notifications.unread.count %>
+                  <span class="visually-hidden">unread messages</span>
+                </span>
+              </i>
             </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <% @notifications.each do |notification| %>
+                <li>
+                  <%= link_to notification.message, notifiable_path(notification), class: 'dropdown-item' %>
+                  <span class="badge text-bg-success">
+                    <small>
+                      <%= link_to notification_path(notification, notification: { status: :read }), data: { turbo_method: :patch } do %>
+                        <i class="bi bi-envelope-open" style="color: white;"></i>
+                      <% end %>
+                    </small>
+                  </span>
+                  <span>
+                    <small>
+                      <%= link_to notification_path(notification, notification: { status: :unread }), data: { turbo_method: :patch } do %>
+                        <i class="bi bi-envelope-fill"></i>
+                      <% end %>
+                    </small>
+                  </span>
+                </li>
+              <% end %>
+              <li><hr class="dropdown-divider"></li>
+              <li><%= link_to 'Delete all notifications', destroy_all_notifications_path, class: 'dropdown-item', data: { turbo_method: :delete } %></li>
             </ul>
           </li>
         <% end %>

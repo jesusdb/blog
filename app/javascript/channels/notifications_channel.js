@@ -15,7 +15,7 @@ consumer.subscriptions.create("NotificationsChannel", {
     // Called when there's incoming data on the websocket for this channel
     console.log("Data received!");
     console.log("Data: ", data);
-    alert(data.message)
-    // $("#notifications").prepend(data.html);
+    // alert(data.message);
+    document.getElementById('notifications-icon-container').innerHTML = '<i class="bi bi-app-indicator"></i>';
   }
 });

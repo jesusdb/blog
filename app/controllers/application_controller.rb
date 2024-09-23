@@ -19,9 +19,13 @@ class ApplicationController < ActionController::Base
   private
 
   def fetch_external_articles
-    @external_articles = NewsApiClient.new
-                           .fetch_related_articles(query: params[:query])
-                           .paginate(page: params[:page], per_page: MAX_RECORDS_PER_PAGE)
+    cache_key = "related_articles_for_#{params[:query] || 'blank'}"
+
+    Rails.cache.fetch(cache_key, expires_in: 24.hours) do
+      @external_articles = NewsApiClient.new
+                                        .fetch_related_articles(query: params[:query])
+                                        .paginate(page: params[:page], per_page: MAX_RECORDS_PER_PAGE)
+    end
   end
 
   def set_current_user_notifications

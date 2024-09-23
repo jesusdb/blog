@@ -9,9 +9,11 @@
     <ul class="list-group list-group-flush">
       <% article.comments.each do |comment| %>
         <li class="list-group-item">
-          <small><%= comment.user.email %></small><br>
-          <%= comment.body %><br>
-          <small><%= link_to 'Delete', comment_path(comment), data: { turbo_method: :delete } %></small>
+          <% cache comment do %>
+            <small><%= comment.user.email %></small><br>
+            <%= comment.body %><br>
+            <small><%= link_to 'Delete', comment_path(comment), data: { turbo_method: :delete } %></small>
+          <% end %>
         </li>
       <% end %>
     </ul>

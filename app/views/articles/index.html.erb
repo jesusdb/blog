@@ -6,7 +6,9 @@
   <div class="row">
     <% @articles.each do |article| %>
       <div class="col-4">
-        <%= render article %>
+        <% cache article do %>
+          <%= render article %>
+        <% end %>
         <p><%= link_to "Show this article", article %></p>
       </div>
     <% end %>

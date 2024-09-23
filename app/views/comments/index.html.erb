@@ -4,7 +4,9 @@
 
 <div id="comments">
   <% @comments.each do |comment| %>
-    <%= render comment %>
+    <% cache comment do %>
+      <%= render comment %>
+    <% end %>
     <p>
       <%= link_to "Show this comment", comment %>
     </p>

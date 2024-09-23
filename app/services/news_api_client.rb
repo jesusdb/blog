@@ -16,6 +16,6 @@ class NewsApiClient
       req.params['sortBy'] = sort_by
     end
 
-    JSON.parse(response.body)['articles'].try(:first, 5) || []
+    JSON.parse(response.body)['articles'] || []
   end
 end

@@ -1,10 +1,14 @@
+# frozen_string_literal: true
+
+require 'will_paginate/array'
+
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
 
   before_action :set_current_user_notifications, if: :user_signed_in?
   before_action :fetch_external_articles
 
-  MAX_RECORDS_PER_PAGE = 10
+  MAX_RECORDS_PER_PAGE = 5
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -15,7 +19,9 @@ class ApplicationController < ActionController::Base
   private
 
   def fetch_external_articles
-    @external_articles = NewsApiClient.new.fetch_related_articles(query: params[:query])
+    @external_articles = NewsApiClient.new
+                           .fetch_related_articles(query: params[:query])
+                           .paginate(page: params[:page], per_page: MAX_RECORDS_PER_PAGE)
   end
 
   def set_current_user_notifications

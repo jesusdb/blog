@@ -8,10 +8,18 @@ class NotificationsController < ApplicationController
 
   def destroy
     @notification.destroy!
+
+    respond_to do |format|
+      format.json { head :no_content }
+    end
   end
 
   def destroy_all
     current_user.notifications.destroy_all
+
+    respond_to do |format|
+      format.json { head :no_content }
+    end
   end
 
   private

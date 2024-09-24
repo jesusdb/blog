@@ -10,6 +10,7 @@ class NotificationsController < ApplicationController
     @notification.destroy!
 
     respond_to do |format|
+      format.html { redirect_back(fallback_location: root_path) }
       format.json { head :no_content }
     end
   end
@@ -18,6 +19,7 @@ class NotificationsController < ApplicationController
     current_user.notifications.destroy_all
 
     respond_to do |format|
+      format.html { redirect_back(fallback_location: root_path) }
       format.json { head :no_content }
     end
   end

@@ -37,6 +37,15 @@ RSpec.describe 'Comments', type: :request do
       end
     end
 
+    describe 'POST /articles/:article_id/comments' do
+      it 'returns http ok' do
+        post article_comments_path(comment.article), params: { comment: valid_comment_attributes }
+
+        follow_redirect!
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
     describe 'PATCH /comments/:id' do
       context 'when the user tries to update their own comment' do
         before { patch comment_path(comment), params: { comment: valid_comment_attributes } }
@@ -58,6 +67,13 @@ RSpec.describe 'Comments', type: :request do
         it 'does not update the comment' do
           expect { comment.reload }.not_to change(comment, :updated_at)
         end
+      end
+    end
+
+    describe 'DELETE /destroy' do
+      it 'returns http see_other' do
+        delete comment_path(comment)
+        expect(response).to have_http_status(:see_other)
       end
     end
   end

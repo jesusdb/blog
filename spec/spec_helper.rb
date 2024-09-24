@@ -5,6 +5,7 @@ SimpleCov.start 'rails' do
   add_filter '/db/'
   add_filter '/spec/'
   add_filter '/app/mailers/'
+  add_filter '/app/policies/application_policy'
 end
 
 SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter

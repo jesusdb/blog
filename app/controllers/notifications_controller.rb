@@ -3,7 +3,15 @@ class NotificationsController < ApplicationController
   before_action :set_notification, only: %i[ update destroy ]
 
   def update
-    @notification.update(notification_params)
+    respond_to do |format|
+      if @notification.update(notification_params)
+        format.html { redirect_back(fallback_location: root_path, notice: 'Notification was successfully updated.') }
+        format.json { head :no_content }
+      else
+        format.html { redirect_back(fallback_location: root_path, notice: 'Notification was not updated.') }
+        format.json { render json: @notification.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def destroy

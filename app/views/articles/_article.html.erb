@@ -19,5 +19,5 @@
     </ul>
   </div>
 
-  <%= render 'comments/form', article: @article, comment: @comment if action_name == 'show' %>
+  <%= render 'comments/form', url: nil, article: @article, comment: @comment if action_name == 'show' %>
 </div>

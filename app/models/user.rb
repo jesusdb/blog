@@ -9,6 +9,7 @@ class User < ApplicationRecord
   validates_presence_of :password
   validates :email, format: { with: /\A(?!.*\.\.)[a-z\d_.\-+]{1,50}@[a-z\d\-]{1,50}\.[a-z]{1,30}\z/i }
 
+  has_many :articles, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :notifications, foreign_key: :recipient_id, dependent: :destroy
 end

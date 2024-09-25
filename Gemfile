@@ -53,6 +53,8 @@ gem 'pundit', '~> 2.4'
 gem 'acts-as-taggable-on', '~> 11.0'
 gem 'will_paginate', '~> 4.0', '>= 4.0.1'
 gem 'faraday', '~> 2.12'
+gem 'omniauth-google-oauth2', '~> 1.2'
+gem 'omniauth-rails_csrf_protection', '~> 1.0', '>= 1.0.2'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

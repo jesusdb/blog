@@ -23,9 +23,11 @@ class ReactionsController < ApplicationController
   # POST /reactions or /reactions.json
   def create
     @reaction = Reaction.new(reaction_params.merge({ reactionable: @article, user: current_user }))
+    @reactionable = @article
 
     respond_to do |format|
       if @reaction.save
+        format.turbo_stream
         format.html { redirect_to @reaction.reactionable, notice: "Reaction was successfully applied." }
         format.json { render :show, status: :created, location: @reaction }
       else
@@ -51,8 +53,10 @@ class ReactionsController < ApplicationController
   # DELETE /reactions/1 or /reactions/1.json
   def destroy
     @reaction.destroy!
+    @reactionable = @reaction.reactionable
 
     respond_to do |format|
+      format.turbo_stream
       format.html { redirect_to @reaction.reactionable, status: :see_other, notice: "Reaction was successfully destroyed." }
       format.json { head :no_content }
     end

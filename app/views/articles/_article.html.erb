@@ -8,17 +8,11 @@
       <% if user_signed_in? %>
         <% if (reaction = article.liked_by?(user_id: current_user.id).take) %>
           <%= link_to reaction_path(reaction), data: { turbo_method: :delete }, class: 'card-link' do %>
-            <i class="bi bi-hand-thumbs-up"></i>
-            <small>
-              <%= article.liked.count %>
-            </small>
+            <%= render 'likes/likes_count', reactionable: article %>
           <% end %>
         <% else %>
           <%= link_to article_reactions_path(article, reaction: { status: :liked }), data: { turbo_method: :post }, class: 'card-link' do %>
-            <i class="bi bi-hand-thumbs-up"></i>
-            <small>
-              <%= article.liked.count %>
-            </small>
+            <%= render 'likes/likes_count', reactionable: article %>
           <% end %>
         <% end %>
       <% end %>

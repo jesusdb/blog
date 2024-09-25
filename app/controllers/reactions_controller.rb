@@ -1,24 +1,24 @@
 class ReactionsController < ApplicationController
-  before_action :set_reaction, only: %i[ show edit update destroy ]
-  before_action :set_article, only: %i[ index new create ]
+  before_action :set_reaction, only: %i[ destroy ]
+  before_action :set_article, only: %i[ create ]
 
-  # GET /reactions or /reactions.json
-  def index
-    @reactions = Reaction.all
-  end
+  # # GET /reactions or /reactions.json
+  # def index
+  #   @reactions = Reaction.all
+  # end
 
-  # GET /reactions/1 or /reactions/1.json
-  def show
-  end
+  # # GET /reactions/1 or /reactions/1.json
+  # def show
+  # end
 
-  # GET /reactions/new
-  def new
-    @reaction = Reaction.new
-  end
+  # # GET /reactions/new
+  # def new
+  #   @reaction = Reaction.new
+  # end
 
-  # GET /reactions/1/edit
-  def edit
-  end
+  # # GET /reactions/1/edit
+  # def edit
+  # end
 
   # POST /reactions or /reactions.json
   def create
@@ -37,18 +37,18 @@ class ReactionsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /reactions/1 or /reactions/1.json
-  def update
-    respond_to do |format|
-      if @reaction.update(reaction_params)
-        format.html { redirect_to @reaction, notice: "Reaction was successfully updated." }
-        format.json { render :show, status: :ok, location: @reaction }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @reaction.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # # PATCH/PUT /reactions/1 or /reactions/1.json
+  # def update
+  #   respond_to do |format|
+  #     if @reaction.update(reaction_params)
+  #       format.html { redirect_to @reaction, notice: "Reaction was successfully updated." }
+  #       format.json { render :show, status: :ok, location: @reaction }
+  #     else
+  #       format.html { render :edit, status: :unprocessable_entity }
+  #       format.json { render json: @reaction.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # DELETE /reactions/1 or /reactions/1.json
   def destroy

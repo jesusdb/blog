@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_20_221249) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_25_144824) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,6 +45,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_20_221249) do
     t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
     t.index ["recipient_id"], name: "index_notifications_on_recipient_id"
     t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
+  create_table "reactions", force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.bigint "user_id", null: false
+    t.string "reactionable_type", null: false
+    t.integer "reactionable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reactionable_type", "reactionable_id"], name: "index_reactions_on_reactionable_type_and_reactionable_id"
+    t.index ["user_id"], name: "index_reactions_on_user_id"
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -95,5 +106,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_20_221249) do
   add_foreign_key "comments", "articles"
   add_foreign_key "comments", "users"
   add_foreign_key "notifications", "users"
+  add_foreign_key "reactions", "users"
   add_foreign_key "taggings", "tags"
 end

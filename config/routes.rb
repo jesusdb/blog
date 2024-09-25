@@ -2,8 +2,9 @@ Rails.application.routes.draw do
   resources :notifications, only: %i[update destroy] do
     delete 'destroy_all', on: :collection
   end
-  resources :articles do
-    resources :comments, shallow: true
+  resources :articles, shallow: true do
+    resources :comments
+    resources :reactions
   end
   devise_for :users
   get 'home/index'

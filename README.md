@@ -53,6 +53,10 @@ And execute the migrations:
 
     $ bundle exec rails db:migrate
 
+To create a user and some articles with tags, seed the database:
+
+    $ bundle exec rails db:seed
+
 ### Start Server
 
 First, you have to start the Rails server:

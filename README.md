@@ -74,3 +74,7 @@ To run all the tests, execute in the root folder:
 This will automatically run all the tests written inside `spec/`. You can run it for a specific test file:
 
     $ bundle exec rspec spec/models/article_spec.rb
+
+### Code Coverage
+
+To check the code coverage of this project, simply run all the tests as mentioned in the previous section and then you could find the file `coverage/index.html` that will display the percentage and more details about the lines covered/uncovered.
